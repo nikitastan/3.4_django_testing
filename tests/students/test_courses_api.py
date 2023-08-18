@@ -28,10 +28,9 @@ def course_factory():
 @pytest.mark.django_db
 def test_get_first_course(client, course_factory, student_factory):
     course = course_factory(_quantity=1)
-    course_id = str(course[0].id)
     print(course_id)
 
-    url = reverse('courses-detail', args=(course_id,))
+    url = reverse('courses-detail', args=(course[0].id,))
     response = client.get(url)
     data = response.json()
 
@@ -55,10 +54,9 @@ def test_create_list_courses(client, course_factory, student_factory):
 @pytest.mark.django_db
 def test_filter_id_courses(client, course_factory, student_factory):
     courses = course_factory(_quantity=10)
-    course_id = courses[2].id
 
-    url = reverse('courses-detail', args=(course_id,))
-    response = client.get(url)
+    url = reverse('courses-detail', args=(course[2].id,))
+    response = client.get(url, {'id': courses[2].id})
 
     data = response.json()
 
@@ -95,9 +93,8 @@ def test_patch_course(client, course_factory, student_factory):
 
     students = student_factory(_quantity=30)
     courses = course_factory(_quantity=20)
-    course_id = str(courses[5].id)
 
-    url = reverse('courses-detail', args=(course_id,))
+    url = reverse('courses-detail', args=(course[5].id,))
     response = client.patch(url, data={'name': 'Python'})
     data = response.json()
 
