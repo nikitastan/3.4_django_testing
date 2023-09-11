@@ -55,7 +55,7 @@ def test_create_list_courses(client, course_factory, student_factory):
 def test_filter_id_courses(client, course_factory, student_factory):
     courses = course_factory(_quantity=10)
 
-    url = reverse('courses-detail', args=(course[2].id,))
+    url = reverse('courses-list')
     response = client.get(url, {'id': courses[2].id})
 
     data = response.json()
